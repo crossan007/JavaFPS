@@ -1,56 +1,69 @@
 
-// TexturedFloor.java
+// CheckerFloor.java
 // Andrew Davison, April 2005, ad@fivedots.coe.psu.ac.th
 
-/* A TexturedFloor is a single TexuredPlane, filled with
-   quads whose coordinates go from
-   FLOOR_LEN/2 to -FLOOR_LEN/2 in steps of STEP along
-   the x- and z- axes.
+/* The floor is a blue and green chessboard, with a small red square
+   at the (0,0) position on the (X,Z) plane, and with numbers along
+   the X- and Z- axes.
 
-   The texture comes from FLOOR_IMG.
-   The floor coordinates all have an up-facing normal.
+   Changes to the Shooter3D version:
+      * 2D text in makeText() is set unpickable
+
 */
 
+import java.awt.*;
 import javax.media.j3d.*;
+import com.sun.j3d.utils.geometry.Text2D;
 import javax.vecmath.*;
+
 import java.util.ArrayList;
 
 
 public class TexturedFloor
 {
-  private final static int FLOOR_LEN = 80;  // should be even
-  private final static int STEP = 4;  // should divide into FLOOR_LEN
-
-  private final static String FLOOR_IMG = "images/stone.jpg";
-
-  private BranchGroup floorBG;  // parent for the TexturedPlane node
+  private final static int Floor_Len = 20;  // should be even
 
 
-  public TexturedFloor()
-  // create quad coords, make TexturedPlane, add to floorBG
+  private final static Color3f clear = new Color3f(1.0f, 1.0f, 1.0f);
+  private final static Color3f other = new Color3f(0.0f, 0.5f, 1.0f);
+
+
+  private BranchGroup floorBG;
+
+
+  public TexturedFloor() //sets colors
   {
-    ArrayList coords = new ArrayList();
+    ArrayList blueCoords = new ArrayList();
+    ArrayList greenCoords = new ArrayList();
     floorBG = new BranchGroup();
 
-    // create coords for the quad
-    for(int z=FLOOR_LEN/2; z >= (-FLOOR_LEN/2)+STEP; z-=STEP) {  // front to back
-      for(int x=-FLOOR_LEN/2; x <= (FLOOR_LEN/2)-STEP; x+=STEP)  // left to right
-          createCoords(x, z, coords);
+    boolean isBlue;
+    for(int z=-Floor_Len; z <= (Floor_Len)-1; z++) 
+    {
+      isBlue = (z%2 == 0);
+      for(int x=-Floor_Len; x <= (Floor_Len)-1; x++) 
+      {
+        if (isBlue)
+          createCoords(x, z, blueCoords);
+        else 
+          createCoords(x, z, greenCoords);
+      }
     }
+    floorBG.addChild( new Tiles(blueCoords, other) );
+    floorBG.addChild( new Tiles(greenCoords, clear) );
 
-    Vector3f upNormal = new Vector3f(0.0f, 1.0f, 0.0f);   // pointing upwards
-    floorBG.addChild( new TexturedPlane(coords, FLOOR_IMG, upNormal) );
-  }  // end of TexturedFloor()
+  }  // end of CheckerFloor()
 
 
   private void createCoords(int x, int z, ArrayList coords)
+  // Coords for a single blue or green square, 
+  // its left hand corner at (x,0,z)
   {
-    // points created in counter-clockwise order, from front left
-    // of length STEP
-    Point3f p1 = new Point3f(x, 0.0f, z);   
-    Point3f p2 = new Point3f(x+STEP, 0.0f, z);
-    Point3f p3 = new Point3f(x+STEP, 0.0f, z-STEP);
-    Point3f p4 = new Point3f(x, 0.0f, z-STEP);
+    // points created in counter-clockwise order
+    Point3f p1 = new Point3f(x, 0.0f, z+1.0f);
+    Point3f p2 = new Point3f(x+1.0f, 0.0f, z+1.0f);
+    Point3f p3 = new Point3f(x+1.0f, 0.0f, z);
+    Point3f p4 = new Point3f(x, 0.0f, z);   
     coords.add(p1); coords.add(p2); 
     coords.add(p3); coords.add(p4);
   }  // end of createCoords()
@@ -59,5 +72,6 @@ public class TexturedFloor
   public BranchGroup getBG()
   {  return floorBG;  }
 
-}  // end of TexturedFloor class
+
+}  // end of CheckerFloor class
 

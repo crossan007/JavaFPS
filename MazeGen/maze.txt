@@ -1,9 +1,0 @@
-                       
- cbbbbbcbbc bbbbbcbbbb 
- b       b       c   b 
- b bbbbb b bbb bbb c b 
- b b   b b b b   b b b 
- b b b bbb b bcb b b c 
- b   c         b   bsb 
- bbbcbcbbbbcbbccbbbcbc 
-                       
