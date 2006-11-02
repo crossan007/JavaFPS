@@ -5,7 +5,7 @@ public class Player
 {
 	private TransformGroup tg;
 	private String name;
-	public Player(String Name, TransformGroup start,String IPAddress)
+	public Player(String Name, TransformGroup start)
 	{
 		tg=start;
 		name=Name;
@@ -19,17 +19,9 @@ public class Player
 		return name;
 		
 	}
-	public BranchGroup getBranchGroup()
+	public TransformGroup getTransformGroup()
 	{
-		BranchGroup bg = new BranchGroup();
-		bg.setCapability(BranchGroup.ALLOW_CHILDREN_EXTEND| BranchGroup.ALLOW_CHILDREN_WRITE);
-		
-		bg.addChild(tg);
-		return bg;
-	}
-	public String toString()
-	{
-		return name;
+		return tg;
 	}
 
 }

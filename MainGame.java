@@ -20,46 +20,38 @@ import java.util.Enumeration;
 public class MainGame implements EventListener
 {
 	   
-	static SimpleUniverse simpleU; //our simple universe object
+	SimpleUniverse simpleU; //our simple universe object
 	
 	CameraMover cm;
 	MapManager mapManager;
-	NetworkManager networkManager;
-	PlayerManager playerManager;
+	Network networkManager;
 	Sound VOIPManager;
 	
 	
 	public void actionPerformed(Event e)
 	{
 		
+		//System.out.println(e);
 		if(e.getType().equals("Sound"))
 		{
 			VOIPManager.actionPreformed(e);
 		}
-		
 		PlayerManager.actionPerformed(e);
 	}
 	public MainGame() // constructor for main game. initialized full screen
 						// mode
 	{
 		Debug.turnOn();
-		Canvas3D c = new Canvas3D(SimpleUniverse.getPreferredConfiguration());
-		
-		simpleU = new SimpleUniverse(c); // setup the SimpleUniverse, attach
-		BranchGroup scene = new BranchGroup();
-		
-		playerManager = new PlayerManager();
-		networkManager = new NetworkManager(this);
-		
-		
-		
+		networkManager = new Network();
+		networkManager.addActionListener(this);
+		networkManager.start();
 		VOIPManager = new Sound();
 		VOIPManager.addNetworkCommunications(networkManager);
 		VOIPManager.start();
 		
 		if(!GameSettings.getIsServer())
 		{
-			networkManager.connect();
+			networkManager.connect(GameSettings.getServerIP());
 		}
 		Toolkit tk = Toolkit.getDefaultToolkit();
 		Dimension d = tk.getScreenSize();
@@ -70,15 +62,17 @@ public class MainGame implements EventListener
 		f.setAlwaysOnTop(false);
 		HUDframe.setAlwaysOnTop(true);
 		
+		Canvas3D c = new Canvas3D(SimpleUniverse.getPreferredConfiguration());
 		
+		simpleU = new SimpleUniverse(c); // setup the SimpleUniverse, attach
 		
 		mapManager=new MapManager();
 		
+		BranchGroup scene = new BranchGroup();
+		scene.addChild(PlayerManager.getPlayerBranchGroup());
 		
 		
-		
-		
-		TransformGroup gun = Loader.loadObject("gun.obj");
+		TransformGroup gun = Loader.loadObject("Models\\gun.obj");
 		gun.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
 		Transform3D tempCam = new Transform3D();
 		tempCam.setTranslation(new Vector3d(0,1,0));
@@ -94,13 +88,11 @@ public class MainGame implements EventListener
       
 		
       	scene.addChild(gun);
-      	
 		scene.compile();
 
 		simpleU.addBranchGraph(scene); // add your SceneGraph to the
 		simpleU.addBranchGraph(mapManager.getBranchGraph());
 		
-	
 		c.addKeyListener(cm);
 		c.addMouseMotionListener(cm);
 		c.setFocusable(true);

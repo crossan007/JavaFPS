@@ -10,10 +10,7 @@ public class PlayerManager
 	
 	public PlayerManager()
 	{
-		playersBranchGroup=new BranchGroup();
-		playersBranchGroup.setCapability(BranchGroup.ALLOW_CHILDREN_EXTEND | BranchGroup.ALLOW_CHILDREN_WRITE);
-
-		
+		playersBranchGroup.setCapability(BranchGroup.ALLOW_CHILDREN_EXTEND);
 	}
 	public static BranchGroup getPlayerBranchGroup()
 	{
@@ -22,18 +19,16 @@ public class PlayerManager
 	
 	public static void actionPerformed(Event e)
 	{
-		if(e.getType().equals("Position"))
+		if(e.getType().equals("Network-ICON"))
 		{
-			((Player)playerList.get(findPlayer(e.getSender()))).setTransform((TransformNetwork)e.getData());
+			Player temp = new Player(e.getSender(),Loader.loadObject("Models\\"+(String)e.getData()));
+			playerList.add(temp);
+			playersBranchGroup.addChild(temp.getTransformGroup());
 		}
-	}
-	public static void addPlayer(String name,String ipAddress,String Avatar)
-	{
-		System.out.println("Loadong" + Avatar);
-		Player tempPlayer = new Player(name,Loader.loadObject(Avatar),ipAddress);
-		System.out.println("New Player Added"+tempPlayer);
-		playerList.add(tempPlayer);
-		MainGame.simpleU.addBranchGraph(tempPlayer.getBranchGroup());
+		else if(e.getType().equals("Pos-Update"))
+		{
+			((Player)playerList.get(findPlayer(e.getSender()))).setTransform((Transform3D)e.getData());
+		}
 	}
 	public static int findPlayer(String Name)
 	{

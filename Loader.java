@@ -6,8 +6,7 @@ import com.sun.j3d.loaders.objectfile.ObjectFile;
 public class Loader {
 	public static TransformGroup loadObject(String s1) {
 		TransformGroup tg = new TransformGroup();
-		s1="Models\\"+s1;
-		System.out.println("Loadong" + s1);
+
 		try {
 			Scene s = null;
 			ObjectFile f = new ObjectFile();

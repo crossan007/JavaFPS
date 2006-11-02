@@ -13,8 +13,7 @@ public class GameSettings
 	private static int killLimit;
 	private static boolean isServer;
 	private static String serverIP;
-	private static int listeningPort=600;
-	private static int remotePort=600;
+	private static int listeningPort;
 	private static String avatarFileName="cool.obj";
 	
 	public static void setIsServer(boolean a)
@@ -32,10 +31,6 @@ public class GameSettings
 	public static void setListeningPort(int p)
 	{
 		listeningPort=p;
-	}
-	public static void setRemotePort(int p)
-	{
-		remotePort=p;
 	}
 	public static void setPlayerName(String pn)
 	{
@@ -64,10 +59,6 @@ public class GameSettings
 	public static String getAvatarFileName()
 	{
 		return avatarFileName;
-	}
-	public static int getRemotePort()
-	{
-		return remotePort;
 	}
 	public static int getListeningPort()
 	{
