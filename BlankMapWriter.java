@@ -7,12 +7,12 @@ public class BlankMapWriter
 	{
 		try
 		{
-			FileOutputStream fos = new FileOutputStream("Maps\\map2.vom");
+			FileOutputStream fos = new FileOutputStream("Maps\\map4.vom");
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
 			oos.writeObject(new String("stars4.gif"));
 			for(int x=0;x<14;x++)
 			{
-			ObjectInfo nif = new ObjectInfo("wall.obj",(int)(Math.random()*10),(int)(Math.random()*10),(int)(Math.random()*10),(Math.PI/3),0,0);
+			ObjectInfo nif = new ObjectInfo("robot.obj",(int)(Math.random()*10),(int)(Math.random()*10),(int)(Math.random()*10),(Math.PI/3),0,0);
 			oos.writeObject(nif);
 			}
 		

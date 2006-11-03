@@ -127,6 +127,7 @@ public class CameraMover implements Runnable, KeyListener, MouseMotionListener {
 			}
 			cameraTransform.setTransform(temp1);
 			setGun();
+			NetworkManager.sendEvent(new Event("Position",GameSettings.getPlayerName(),new TransformNetwork(temp1)));
 			try
 			{
 				runner.sleep(50);
@@ -163,7 +164,9 @@ public class CameraMover implements Runnable, KeyListener, MouseMotionListener {
 
 		cameraTransform.setTransform(t2);
 		setGun();
+		NetworkManager.sendEvent(new Event("Position",GameSettings.getPlayerName(),new TransformNetwork(temp1)));
 		robot.mouseMove(((int)d.getWidth())/2,((int)d.getHeight())/2);
+		
 
 	}
 

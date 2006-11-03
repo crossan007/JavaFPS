@@ -9,7 +9,7 @@ import java.net.URL;
 public class Sound implements Runnable
 {
 	Thread runner;
-	Network networkClass;
+	NetworkManager networkClass;
 	static boolean isBroadcasting = false;
 	byte[] tempBuffer = new byte[8000];
 	
@@ -96,7 +96,7 @@ public class Sound implements Runnable
 		}
 	}
 	//associates the sound class with a network class, so it can send events.
-	public void addNetworkCommunications(Network myNet)
+	public void addNetworkCommunications(NetworkManager myNet)
 	{
 		networkClass = myNet;
 	}

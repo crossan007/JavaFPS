@@ -37,11 +37,12 @@ public  class MapManager
 	
 	public static void setMap(String mName)
 	{
-		mapName = "Maps\\"+mName;
+		mapName = mName;
 		System.out.println(mapName);
+		objects.clear();
 		try
 		{
-			FileInputStream fis = new FileInputStream(mapName);
+			FileInputStream fis = new FileInputStream("Maps\\"+mapName);
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			SKY_TEX="Images\\"+(String)ois.readObject();
 			
@@ -82,7 +83,7 @@ public  class MapManager
 		for(int x=0;x<objects.size();x++)
 		{
 			ObjectInfo tempObject = (ObjectInfo)objects.get(x);
-			tempObjectTransform = Loader.loadObject("Models\\"+tempObject.getFileName());
+			tempObjectTransform = Loader.loadObject(tempObject.getFileName());
 			positionTransform.setTranslation(new Vector3d(tempObject.getXPosition(),tempObject.getYPosition(),tempObject.getZPosition()));
 			rotationTransformX.rotX(tempObject.getXRotation());
 			rotationTransformX.rotY(tempObject.getYRotation());
