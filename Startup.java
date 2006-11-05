@@ -46,6 +46,7 @@ public class Startup extends JFrame implements ActionListener, ChangeListener
 	JTextField serverIP = new JTextField();
 	JLabel enterServer = new JLabel("Enter Server IP: ");
 	JComboBox mapSelect = new JComboBox();
+	JComboBox characterSelect = new JComboBox();
 	JSlider mouseSensetivity = new JSlider();
 	
 	/**
@@ -98,6 +99,7 @@ public class Startup extends JFrame implements ActionListener, ChangeListener
 		 add(enterServer);
 		 add(backButton);
 		 add(mapSelect);
+		 add(characterSelect);
 		 add(mouseSensetivity);
 		 add(lookSens);
 		 getContentPane().add(gameName);
@@ -117,6 +119,8 @@ public class Startup extends JFrame implements ActionListener, ChangeListener
          backButton.setVisible(false);
          Join.setVisible(false);
          mapSelect.setVisible(false);
+         mapSelect.setVisible(false);
+         characterSelect.setVisible(false);
          mouseSensetivity.setVisible(false);
          lookSens.setVisible(false);
          
@@ -247,6 +251,17 @@ public class Startup extends JFrame implements ActionListener, ChangeListener
 	            {
 	            	mapSelect.addItem(MapManager.getAllMaps()[x]);
 	            }
+	            
+		            characterSelect.setFont(new Font("futuraBlack BT",Font.PLAIN,15));
+		            characterSelect.setLocation(new Point((int)(d.getWidth()/1.2),(int)(d.getHeight()*.78)));
+		            characterSelect.setSize(new Dimension(150,40));
+		            characterSelect.setBackground(new Color(11,11,11));
+		            characterSelect.setForeground(new Color (80,80,80));
+		            characterSelect.addActionListener(this);
+		            for(int x=0;x<MapManager.getAllCharacters().length;x++)
+		            {
+		            	characterSelect.addItem(MapManager.getAllCharacters()[x]);
+		            }
             
             enterName.setFont(new Font("futuraBlack BT",Font.PLAIN,15));
             enterName.setLocation(new Point((int)(d.getWidth()/1.2),(int)(d.getHeight()/1.1)));
@@ -301,6 +316,7 @@ public class Startup extends JFrame implements ActionListener, ChangeListener
                JoinGame.setVisible(false);
                options.setVisible(false);
                mapSelect.setVisible(true);
+               characterSelect.setVisible(true);
                DeathMatchMode.setVisible(true);
                CTFMode.setVisible(true);
                nameHere.setVisible(true);
@@ -322,6 +338,7 @@ public class Startup extends JFrame implements ActionListener, ChangeListener
                startGame.setVisible(true);
                JoinGame.setVisible(true);
                mapSelect.setVisible(false);
+               characterSelect.setVisible(false);
                options.setVisible(true);
                DeathMatchMode.setVisible(false);
                CTFMode.setVisible(false);
@@ -359,6 +376,7 @@ public class Startup extends JFrame implements ActionListener, ChangeListener
                     mouseSensetivity.setVisible(false);
                     lookSens.setVisible(false);
                     GameSettings.setIsServer(false);
+                    characterSelect.setVisible(true);
                     
                    
                     

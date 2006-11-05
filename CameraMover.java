@@ -17,6 +17,8 @@ public class CameraMover implements Runnable, KeyListener, MouseMotionListener {
 	private int VK_BACKWARD = 's';
 	private int VK_LEFT = 'a';
 	private int VK_RIGHT = 'd';
+	private int VK_UP= 'q';
+	private int VK_DOWN = 'e';
 
 	private final double MOVE_AMT = .1;
 	private final Vector3d VFWD = new Vector3d(0, 0, -MOVE_AMT);
@@ -30,7 +32,7 @@ public class CameraMover implements Runnable, KeyListener, MouseMotionListener {
 	private final Vector3d NOYMOVE = new Vector3d(1,0,1);
 	
 	
-	private boolean isForeward,isBack,isLeft,isRight;
+	private boolean isForeward,isBack,isLeft,isRight,isUp,isDown;
 	private boolean isFree = false;
 	
 	Toolkit tk = Toolkit.getDefaultToolkit();
@@ -118,6 +120,18 @@ public class CameraMover implements Runnable, KeyListener, MouseMotionListener {
 				temp1.mul(temp2);
 				
 			}
+			if(isDown)
+			{
+				temp2.setTranslation(VDOWN);
+				temp1.mul(temp2);
+				
+			}
+			if(isUp)
+			{
+				temp2.setTranslation(VUP);
+				temp1.mul(temp2);
+				
+			}
 			if(isFree)
 			{
 				/*Vector3d my = new Vector3d();
@@ -125,6 +139,7 @@ public class CameraMover implements Runnable, KeyListener, MouseMotionListener {
 				temp1.setTranslation(my);*/
 				
 			}
+			
 			cameraTransform.setTransform(temp1);
 			setGun();
 			NetworkManager.sendEvent(new Event("Position",GameSettings.getPlayerName(),new TransformNetwork(temp1)));
@@ -182,7 +197,12 @@ public class CameraMover implements Runnable, KeyListener, MouseMotionListener {
 			isLeft = true;
 		} else if (e.getKeyChar() == VK_RIGHT) {
 			isRight = true;
-		} else if (e.getKeyChar() =='v')	{
+		} else if (e.getKeyChar() == VK_UP) {
+			isUp = true;
+		} else if (e.getKeyChar() == VK_DOWN) {
+			isDown = true; 
+		}
+		else if (e.getKeyChar() =='v')	{
 			Sound.sendSound();
 		}
 		
@@ -205,6 +225,10 @@ public class CameraMover implements Runnable, KeyListener, MouseMotionListener {
 			isLeft = false;
 		} else if (e.getKeyChar() == VK_RIGHT) {
 			isRight = false;
+		}else if (e.getKeyChar() == VK_UP) {
+			isUp = false;
+		} else if (e.getKeyChar() == VK_DOWN) {
+			isDown = false; 
 		}else if (e.getKeyChar() =='v')	{
 			Sound.stopSound();
 		}

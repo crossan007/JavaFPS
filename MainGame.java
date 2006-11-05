@@ -78,7 +78,7 @@ public class MainGame implements EventListener
 		
 		
 		
-		TransformGroup gun = Loader.loadObject("gun.obj");
+		TransformGroup gun = Loader.loadObject("Models\\gun.obj");
 		gun.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
 		Transform3D tempCam = new Transform3D();
 		tempCam.setTranslation(new Vector3d(0,1,0));

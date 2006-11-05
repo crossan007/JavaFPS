@@ -34,6 +34,13 @@ public  class MapManager
 		return children;
 		
 	}
+	public static String[] getAllCharacters()
+	{
+		File maps = new File("Characters");
+		String[] children = maps.list();
+		return children;
+		
+	}
 	
 	public static void setMap(String mName)
 	{
@@ -54,6 +61,31 @@ public  class MapManager
 			
 			
 		}
+		catch(Exception e)
+		{
+			System.out.println(e);
+		}
+		
+	}
+		public static void setCharacter(String mName)
+		{
+			mapName = mName;
+			System.out.println(mapName);
+			objects.clear();
+			try
+			{
+				FileInputStream fis = new FileInputStream("Characters\\"+mapName);
+				ObjectInputStream ois = new ObjectInputStream(fis);
+				SKY_TEX="Images\\"+(String)ois.readObject();
+				
+				
+				while(objects.add(ois.readObject()))
+				{
+					System.out.println("Loading Character Entry for: "+(ObjectInfo)objects.get(objects.size()-1));
+				}
+				
+				
+			}
 		catch(Exception e)
 		{
 			System.out.println(e);
@@ -83,7 +115,7 @@ public  class MapManager
 		for(int x=0;x<objects.size();x++)
 		{
 			ObjectInfo tempObject = (ObjectInfo)objects.get(x);
-			tempObjectTransform = Loader.loadObject(tempObject.getFileName());
+			tempObjectTransform = Loader.loadObject("Models\\"+tempObject.getFileName());
 			positionTransform.setTranslation(new Vector3d(tempObject.getXPosition(),tempObject.getYPosition(),tempObject.getZPosition()));
 			rotationTransformX.rotX(tempObject.getXRotation());
 			rotationTransformX.rotY(tempObject.getYRotation());
