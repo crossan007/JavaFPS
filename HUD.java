@@ -49,7 +49,7 @@ public class HUD implements Runnable
 			g.fillRect((int)d.getWidth()/5,(int)d.getHeight()/46,playerHealth,16);
 			try
 			{
-			runner.sleep(50);
+			runner.sleep(0);
 			}
 			catch(Exception e)
 			{

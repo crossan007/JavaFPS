@@ -38,7 +38,7 @@ public class ugh {
 		
 		BranchGroup aa = new BranchGroup();
 		TransformGroup p;
-		p=Loader.loadObject("Models\\wall.obj");
+		p=Loader.loadObject("Models\\gun.obj");
 		p.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
 		aa.addChild(p);
 		BoundingSphere bounds = new BoundingSphere (new Point3d (0.0, 0.0, 0.0), 500.0);

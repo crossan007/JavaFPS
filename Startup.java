@@ -574,8 +574,6 @@ public class Startup extends JFrame implements ActionListener, ChangeListener
                   GameSettings.setServerIP(serverIP.getText());
                   GameSettings.setPlayerName(enterName.getText());
                   KeyBindings.setKeyBindings(enterUp.getText().charAt(0),enterDown.getText().charAt(0),enterLeft.getText().charAt(0),enterRight.getText().charAt(0),enterForward.getText().charAt(0),enterBackward.getText().charAt(0));
-                  GameSettings.setAvatarFileName((String)characterSelect.getSelectedItem());
-
                   MainGame mg = new MainGame(); 
                     
                    
@@ -597,9 +595,6 @@ public class Startup extends JFrame implements ActionListener, ChangeListener
              
              GameSettings.setPlayerName(enterName.getText());
              KeyBindings.setKeyBindings(enterUp.getText().charAt(0),enterDown.getText().charAt(0),enterLeft.getText().charAt(0),enterRight.getText().charAt(0),enterForward.getText().charAt(0),enterBackward.getText().charAt(0));
-             MapManager.setMap((String)mapSelect.getSelectedItem()); 
-             GameSettings.setAvatarFileName((String)characterSelect.getSelectedItem());
-
              MainGame mg = new MainGame(); 
         	 
          }
@@ -663,6 +658,10 @@ public class Startup extends JFrame implements ActionListener, ChangeListener
         	 backButton.setVisible(true);
         	 Join.setVisible(false);         
                
+         }
+         if(e.getActionCommand()=="comboBoxChanged")
+         {
+        	 MapManager.setMap((String)mapSelect.getSelectedItem()); 
          }
          
     }
