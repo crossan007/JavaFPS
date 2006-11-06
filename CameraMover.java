@@ -145,7 +145,7 @@ public class CameraMover implements Runnable, KeyListener, MouseMotionListener {
 			NetworkManager.sendEvent(new Event("Position",GameSettings.getPlayerName(),new TransformNetwork(temp1)));
 			try
 			{
-				runner.sleep(50);
+				runner.sleep(10);
 			}
 			catch(Exception e)
 			{

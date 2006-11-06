@@ -15,7 +15,7 @@ public class GameSettings
 	private static String serverIP;
 	private static int listeningPort=600;
 	private static int remotePort=600;
-	private static String avatarFileName="cool.obj";
+	private static String avatarFileName;
 	
 	public static void setIsServer(boolean a)
 	{

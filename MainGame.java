@@ -78,7 +78,7 @@ public class MainGame implements EventListener
 		
 		
 		
-		TransformGroup gun = Loader.loadObject("Models\\gun.obj");
+		TransformGroup gun =Loader.loadObject("Models\\gun.obj");
 		gun.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
 		Transform3D tempCam = new Transform3D();
 		tempCam.setTranslation(new Vector3d(0,1,0));
@@ -90,7 +90,7 @@ public class MainGame implements EventListener
       	Color3f ambientColor = new Color3f (1.0f, 1.0f, 1.0f);
       	AmbientLight ambientLightNode = new AmbientLight (ambientColor);
       	ambientLightNode.setInfluencingBounds (bounds);
-      	scene.addChild (ambientLightNode);
+        scene.addChild (ambientLightNode);
       
 		
       	scene.addChild(gun);
@@ -98,7 +98,9 @@ public class MainGame implements EventListener
 		scene.compile();
 
 		simpleU.addBranchGraph(scene); // add your SceneGraph to the
-		simpleU.addBranchGraph(mapManager.getBranchGraph());
+		BranchGroup b = new BranchGroup();
+		b=mapManager.getBranchGraph();
+		simpleU.addBranchGraph(b);
 		
 	
 		c.addKeyListener(cm);

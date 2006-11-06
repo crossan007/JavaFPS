@@ -45,7 +45,6 @@ public  class MapManager
 	public static void setMap(String mName)
 	{
 		mapName = mName;
-		System.out.println(mapName);
 		objects.clear();
 		try
 		{
@@ -56,14 +55,14 @@ public  class MapManager
 			
 			while(objects.add(ois.readObject()))
 			{
-				System.out.println("Loading Map Entry for: "+(ObjectInfo)objects.get(objects.size()-1));
+				//System.out.println("Loading Map Entry for: "+(ObjectInfo)objects.get(objects.size()-1));
 			}
 			
 			
 		}
 		catch(Exception e)
 		{
-			System.out.println(e);
+			//System.out.println(e);
 		}
 		
 	}
@@ -81,7 +80,6 @@ public  class MapManager
 				
 				while(objects.add(ois.readObject()))
 				{
-					System.out.println("Loading Character Entry for: "+(ObjectInfo)objects.get(objects.size()-1));
 				}
 				
 				
@@ -100,9 +98,13 @@ public  class MapManager
 	{
 		
 		 BranchGroup objRoot = new BranchGroup();
-		
+		objRoot.setCapability(BranchGroup.ALLOW_CHILDREN_EXTEND);
+		objRoot.setCapability(BranchGroup.ALLOW_CHILDREN_READ);
+		objRoot.setCapability(BranchGroup.ALLOW_CHILDREN_WRITE);
 
 		 addBackground(objRoot);  // add the sky
+		
+		
 		
 		
 		
@@ -115,7 +117,8 @@ public  class MapManager
 		for(int x=0;x<objects.size();x++)
 		{
 			ObjectInfo tempObject = (ObjectInfo)objects.get(x);
-			tempObjectTransform = Loader.loadObject("Models\\"+tempObject.getFileName());
+			tempObjectTransform=Loader.loadObject("Models\\"+tempObject.getFileName());
+			tempObjectTransform.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
 			positionTransform.setTranslation(new Vector3d(tempObject.getXPosition(),tempObject.getYPosition(),tempObject.getZPosition()));
 			rotationTransformX.rotX(tempObject.getXRotation());
 			rotationTransformX.rotY(tempObject.getYRotation());
@@ -124,7 +127,9 @@ public  class MapManager
 			positionTransform.mul(rotationTransformY);
 			positionTransform.mul(rotationTransformZ);
 			tempObjectTransform.setTransform(positionTransform);
+			
 			objRoot.addChild(tempObjectTransform);
+			 
 			
 		}
 		return objRoot;
@@ -133,7 +138,6 @@ public  class MapManager
 	private void addBackground(BranchGroup scene)
 	  // add a geometric background using a Background node
 	  {
-		System.out.println("Loading sky texture: " + SKY_TEX);
 	    TextureLoader tex = new TextureLoader(SKY_TEX, null);
 
 	    // create an appearance and assign the texture
@@ -143,7 +147,8 @@ public  class MapManager
 	    Sphere sphere = new Sphere(58.0f,    // radius to extend to edge of scene
 				   Sphere.GENERATE_NORMALS_INWARD |
 				   Sphere.GENERATE_TEXTURE_COORDS, 1, app);   // default divs = 15
-
+	  
 	    scene.addChild( sphere );
+	  
 	  }  // end of addBackground()
 }

@@ -37,7 +37,7 @@ public class Rotator implements Runnable
 		{
 			t.getTransform(tTemp);
 			tChange.setIdentity();
-			tChange.rotX(Math.PI/8);
+			tChange.rotY(Math.PI/8);
 			tTemp.mul(tChange);
 			t.setTransform(tTemp);
 			
@@ -45,7 +45,7 @@ public class Rotator implements Runnable
 			x=x+1;
 			try
 			{
-				runner.sleep(50);
+				runner.sleep(100);
 			}
 			catch(Exception e)
 			{

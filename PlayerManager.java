@@ -30,7 +30,8 @@ public class PlayerManager
 	public static void addPlayer(String name,String ipAddress,String Avatar)
 	{
 		System.out.println("Loadong" + Avatar);
-		Player tempPlayer = new Player(name,Loader.loadObject(Avatar),ipAddress);
+		TransformGroup tt = Loader.loadObject(Avatar);
+		Player tempPlayer = new Player(name,tt,ipAddress);
 		System.out.println("New Player Added"+tempPlayer);
 		playerList.add(tempPlayer);
 		MainGame.simpleU.addBranchGraph(tempPlayer.getBranchGroup());
