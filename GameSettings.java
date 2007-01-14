@@ -13,9 +13,9 @@ public class GameSettings
 	private static int killLimit;
 	private static boolean isServer;
 	private static String serverIP;
-	private static int listeningPort=600;
-	private static int remotePort=600;
-	private static String avatarFileName="Characters\\cool.obj";
+	private static int listeningPort=3997;
+	private static int remotePort=3997;
+	private static String avatarFileName;
 	
 	public static void setIsServer(boolean a)
 	{

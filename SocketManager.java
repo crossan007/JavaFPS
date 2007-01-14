@@ -32,23 +32,26 @@ public class SocketManager implements Runnable
 				
 				listener.actionPerformed((Event)ois.readObject());
 			}
+			
 		}
 		catch(Exception e)
 		{
-			System.out.println(e);
+			System.out.println("Run"+e);
 		}
 		
 	}
 	public void sendEvent(Event e)
 	{
-		try
+		if(client.isConnected())
 		{
-		
-			oos.writeObject(e);
-		}
-		catch(IOException ex)
-		{
-			System.out.println(ex);
+			try
+			{
+				oos.writeObject(e);
+			}
+			catch(IOException ex)
+			{
+				System.out.println("Send Event"+ex);
+			}
 		}
 	}
 }

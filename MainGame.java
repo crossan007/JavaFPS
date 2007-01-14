@@ -26,6 +26,8 @@ public class MainGame implements EventListener
 	MapManager mapManager;
 	NetworkManager networkManager;
 	PlayerManager playerManager;
+	ProjectileManager projManager;
+	
 	Sound VOIPManager;
 	
 	
@@ -38,6 +40,20 @@ public class MainGame implements EventListener
 		}
 		
 		PlayerManager.actionPerformed(e);
+		if(e.getType().equals("Fire"))
+		{
+			Transform3D t5 = new Transform3D();
+			t5.set((double[]) e.getData());
+			
+			ProjectileManager.fire(e.getSender(),t5,0);
+		}
+		if(e.getType().equals("PlayerHit"))
+		{
+			if(((String)e.getData()).equals(GameSettings.getPlayerName()))
+			{
+				HUD.addNews("Hit by"+e.getSender());
+			}
+		}
 	}
 	public MainGame() // constructor for main game. initialized full screen
 						// mode
@@ -50,6 +66,7 @@ public class MainGame implements EventListener
 		
 		playerManager = new PlayerManager();
 		networkManager = new NetworkManager(this);
+		projManager = new ProjectileManager();
 		
 		
 		
@@ -98,12 +115,13 @@ public class MainGame implements EventListener
 		scene.compile();
 
 		simpleU.addBranchGraph(scene); // add your SceneGraph to the
-		BranchGroup b = new BranchGroup();
-		b=mapManager.getBranchGraph();
-		simpleU.addBranchGraph(b);
+		
+		simpleU.addBranchGraph(mapManager.getBranchGraph());
+		
 		
 	
 		c.addKeyListener(cm);
+		c.addMouseListener(cm);
 		c.addMouseMotionListener(cm);
 		c.setFocusable(true);
 		c.requestFocus();

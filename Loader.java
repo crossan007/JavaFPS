@@ -27,7 +27,7 @@ public class Loader {
 		a= new Appearance();
 		try
 		{
-		TextureLoader loader = new TextureLoader(s1 + ".bmp", null);
+		TextureLoader loader = new TextureLoader(s1 + ".jpg", null);
 		
 		Texture2D texture = (Texture2D) loader.getTexture();
 		a.setTexture(texture);

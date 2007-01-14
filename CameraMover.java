@@ -1,5 +1,6 @@
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 
@@ -12,7 +13,7 @@ import java.awt.Dimension;
 import java.awt.Robot;
 import java.awt.Toolkit;
 
-public class CameraMover implements Runnable, KeyListener, MouseMotionListener {
+public class CameraMover implements Runnable, KeyListener, MouseMotionListener, MouseListener {
 	private int VK_FOREWARD = 'w';
 	private int VK_BACKWARD = 's';
 	private int VK_LEFT = 'a';
@@ -30,7 +31,7 @@ public class CameraMover implements Runnable, KeyListener, MouseMotionListener {
 	private final Vector3d VDOWN = new Vector3d(0, -MOVE_AMT, 0);
 	private final Vector3d VUP = new Vector3d(0, MOVE_AMT, 0);
 	private final Vector3d NOYMOVE = new Vector3d(1,0,1);
-	
+	private double transform[] = new double[16];
 	
 	private boolean isForeward,isBack,isLeft,isRight,isUp,isDown;
 	private boolean isFree = false;
@@ -44,12 +45,43 @@ public class CameraMover implements Runnable, KeyListener, MouseMotionListener {
 	private Transform3D temp2 = new Transform3D();
 	private Thread runner = null;
 	private Robot robot;
-
+	private boolean hasmoved = false;
+	
+	public void mouseDragged(MouseEvent e)
+	{
+		mouseMoved(e);
+	}
+	public void mouseEntered(MouseEvent e)
+	{
+		
+	}
+	public void mousePressed(MouseEvent e)
+	{
+		Transform3D blah = new Transform3D();
+		double[] er = new double[16];
+		cameraTransform.getTransform(blah);
+		blah.get(er);
+		ProjectileManager.fire(GameSettings.getPlayerName(),blah,1);
+		NetworkManager.sendEvent(new Event("Fire",GameSettings.getPlayerName(),(Object)er));
+	}
+	public void mouseExited(MouseEvent e)
+	{
+		
+	}
+	public void mouseClicked(MouseEvent e)
+	{
+		
+	}
+	public void mouseReleased(MouseEvent e)
+	{
+		
+	}
 	public CameraMover(TransformGroup gun, TransformGroup camera) 
 	{
 		cameraTransform=camera;
 		gunTransform=gun;
 		setGun();
+
 		
 		try {
 			robot = new Robot();
@@ -97,6 +129,7 @@ public class CameraMover implements Runnable, KeyListener, MouseMotionListener {
 			{
 				temp2.setTranslation(VFWD);
 				temp1.mul(temp2);
+				hasmoved=true;
 				
 			}
 				
@@ -105,12 +138,14 @@ public class CameraMover implements Runnable, KeyListener, MouseMotionListener {
 				
 					temp2.setTranslation(VBACK);
 					temp1.mul(temp2);
+					hasmoved=true;
 				
 			}
 			if(isRight)
 			{
 				temp2.setTranslation(VRIGHT);
 				temp1.mul(temp2);
+				hasmoved=true;
 				
 				
 			}
@@ -118,18 +153,21 @@ public class CameraMover implements Runnable, KeyListener, MouseMotionListener {
 			{
 				temp2.setTranslation(VLEFT);
 				temp1.mul(temp2);
+				hasmoved=true;
 				
 			}
 			if(isDown)
 			{
 				temp2.setTranslation(VDOWN);
 				temp1.mul(temp2);
+				hasmoved=true;
 				
 			}
 			if(isUp)
 			{
 				temp2.setTranslation(VUP);
 				temp1.mul(temp2);
+				hasmoved=true;
 				
 			}
 			if(isFree)
@@ -141,8 +179,17 @@ public class CameraMover implements Runnable, KeyListener, MouseMotionListener {
 			}
 			
 			cameraTransform.setTransform(temp1);
+			
 			setGun();
-			NetworkManager.sendEvent(new Event("Position",GameSettings.getPlayerName(),new TransformNetwork(temp1)));
+			if(hasmoved)
+			{
+				transform=new double[16];
+				temp1.get(transform);
+				//System.out.println(temp1);
+				NetworkManager.sendEvent(new Event("Position",GameSettings.getPlayerName(),transform));
+				
+				hasmoved=false;
+			}
 			try
 			{
 				runner.sleep(10);
@@ -154,9 +201,7 @@ public class CameraMover implements Runnable, KeyListener, MouseMotionListener {
 		}
 	}
 
-	public void mouseDragged(MouseEvent e) {
-
-	}
+	
 
 	public void mouseMoved(MouseEvent e) {
 
@@ -179,7 +224,7 @@ public class CameraMover implements Runnable, KeyListener, MouseMotionListener {
 
 		cameraTransform.setTransform(t2);
 		setGun();
-		NetworkManager.sendEvent(new Event("Position",GameSettings.getPlayerName(),new TransformNetwork(temp1)));
+		hasmoved=true;
 		robot.mouseMove(((int)d.getWidth())/2,((int)d.getHeight())/2);
 		
 
@@ -202,6 +247,7 @@ public class CameraMover implements Runnable, KeyListener, MouseMotionListener {
 		} else if (e.getKeyChar() == VK_DOWN) {
 			isDown = true; 
 		}
+		
 		else if (e.getKeyChar() =='v')	{
 			Sound.sendSound();
 		}

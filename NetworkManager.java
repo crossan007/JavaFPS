@@ -24,7 +24,7 @@ public class NetworkManager implements Runnable, EventListener
 	}
 	public void actionPerformed(Event e)
 	{
-		
+		listener.actionPerformed(e);
 	}
 	public void run()
 	{
@@ -61,19 +61,21 @@ public class NetworkManager implements Runnable, EventListener
 		try
 		{
 			Socket newConnection = new Socket(GameSettings.getServerIP(),GameSettings.getRemotePort());
+			System.out.println("a");
 			tempOis=new ObjectInputStream(newConnection.getInputStream());
 			tempOos=new ObjectOutputStream(newConnection.getOutputStream());
-			
+			System.out.println("a");
 			PlayerManager.addPlayer((String)tempOis.readObject(),newConnection.getRemoteSocketAddress().toString(),(String)tempOis.readObject());
-		
+			System.out.println("a");
 			MapManager.setMap((String)tempOis.readObject());
-			
+			System.out.println("b");
 			tempOos.writeObject(new String(GameSettings.getPlayerName()));
-			
+			System.out.println("c");
 			tempOos.writeObject(new String(GameSettings.getAvatarFileName()));
-			
+			System.out.println("d");
 			
 			connectedClients.add(new SocketManager(this,newConnection,tempOis,tempOos));
+			System.out.println("e");
 		}
 		catch(Exception e)
 		{
